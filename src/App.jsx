@@ -15,17 +15,24 @@ function App() {
 
   const onChangeFromPrice = (value) => {
     const price = value / conversion_rates[fromCurrency];
-    const result = value * conversion_rates[toCurrency];
+    const result = price * conversion_rates[toCurrency];
     setToPrice(result);
     setFromPrice(value);
   }
 
   const onChangeToPrice = (value) => {
-    const result = (conversion_rates[fromCurrency] / conversion_rates[toCurrency] * value);
+    const result = (conversion_rates[fromCurrency] / conversion_rates[toCurrency]) * value;
     setFromPrice(result);
     setToPrice(value);
   }
 
+  useEffect(() => {
+    onChangeFromPrice(fromPrice);
+  }, [fromCurrency, fromPrice]);
+
+  useEffect(() => {
+    onChangeToPrice(toPrice);
+  }, [toCurrency, toPrice]);
 
   useEffect(() => {
     fetch('https://v6.exchangerate-api.com/v6/850f5e12910ac516b9a66b02/latest/RUB')
